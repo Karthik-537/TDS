@@ -10,7 +10,7 @@ from datetime import datetime
 
 @dataclass
 class TDRRequestDTO:
-    tdt_request_id: str
+    tdr_request_id: str
     entity_id: str
     entity_type: TDREntityType
     certificate_number: str

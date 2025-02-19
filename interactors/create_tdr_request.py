@@ -1,9 +1,8 @@
-from interactors.storage_interfaces.storage_interface import StorageInterface
+from interactors.storage_interfaces.tdr_request_storage_interface import TDRRequestStorageInterface
 from interactors.dtos import (
     CreateTDRRequestParamsDTO,
     TDRRequestDTO
 )
-from exceptions import tdr_exceptions
 from mixins.tdr_mixin import TDRMixin
 import uuid
 from constants.enum import TDRRequestStatus
@@ -14,8 +13,8 @@ def _generate_uuid4_str():
 
 
 class CreateTDRRequestInteractor(TDRMixin):
-    def __init__(self, storage: StorageInterface):
-        self.storage = storage
+    def __init__(self, tdr_request_storage: TDRRequestStorageInterface):
+        self.tdr_request_storage = tdr_request_storage
 
     @property
     def tdr_mixin(self):
@@ -28,7 +27,7 @@ class CreateTDRRequestInteractor(TDRMixin):
             user_id=params_dto.user_id
         )
         tdr_request_dto = TDRRequestDTO(
-            tdt_request_id=_generate_uuid4_str(),
+            tdr_request_id=_generate_uuid4_str(),
             entity_id=params_dto.entity_id,
             entity_type=params_dto.entity_type,
             certificate_number=params_dto.certificate_number,
@@ -38,6 +37,6 @@ class CreateTDRRequestInteractor(TDRMixin):
             market_value_for_usage_area=None,
             issued_datetime=None
         )
-        self.storage.create_tdr_request(
+        self.tdr_request_storage.create_tdr_request(
             tdr_request_dto=tdr_request_dto
         )
